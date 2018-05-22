@@ -36,17 +36,19 @@ function transitions() {
 
     var rects = new Array;
 
-    for(let i = 0; i < NUM_RECTS; i++) {
-        let rect = canvas.append("rect")
-                        .attr("width", rect_width)
-                        .attr("height", rect_height)
-                        .attr("fill", "red");
-        rects.push(rect);
-    }
 
     let rainbow = new Rainbow();
     rainbow.setNumberRange(1, NUM_RECTS);
     rainbow.setSpectrum('orange', 'blue');
+
+    for(let i = 0; i < NUM_RECTS; i++) {
+        let rect = canvas.append("rect")
+                        .attr("width", rect_width)
+                        .attr("height", rect_height)
+                        .attr("fill", "#" + rainbow.colorAt(NUM_RECTS - i));
+        rects.push(rect);
+    }
+
     for(let i = NUM_RECTS - 1; i >= 0 ; i-- ) {
         let trans = 100 * i;
 
