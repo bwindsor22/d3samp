@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>D3 Objects and Transitions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/reset.css">
+  <style>
+    body {
+      margin: 20px;
+    }
+  </style>
+</head>
+
+<body>
+    <div class="graphContainer"></div>
+  <script src="javascript/d3.v4.min.js"></script>
+  <script src="rainbow.js"></script>
+  <script>
+
+
+function transitions() {
+    let NUM_RECTS = 15;
+
+    var w = 100 * NUM_RECTS,
+        h = 400;
+
+    let rect_width = 100,
+        rect_height = 50;
+
+    var canvas = d3.select(".graphContainer")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+    var rects = new Array;
+
+    for(let i = 0; i < NUM_RECTS; i++) {
+        let rect = canvas.append("rect")
+                        .attr("width", rect_width)
+                        .attr("height", rect_height)
+                        .attr("fill", "red");
+        rects.push(rect);
+    }
+
+    let rainbow = new Rainbow();
+    rainbow.setNumberRange(1, NUM_RECTS);
+    rainbow.setSpectrum('orange', 'blue');
+    for(let i = NUM_RECTS - 1; i >= 0 ; i-- ) {
+        let trans = 100 * i;
+
+        rects[i].transition()
+        .duration(300)
+        .attr("transform", `translate(${trans},0)`)
+        .transition()
+        .on("end", function() {
+            d3.select(this)
+                .attr("fill", "#" + rainbow.colorAt(i));
+        });      
+    }
+    
+
+	}
+
+transitions();
+
+
+	  </script>
+</body>
+</html>
+
+
+
+
+
+
